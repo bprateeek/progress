@@ -10,7 +10,6 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: Arial, sans-serif;
         background-color: #1e1e1e;
@@ -22,13 +21,11 @@
         min-height: 100vh;
         padding: 20px;
       }
-
       .container {
         text-align: center;
         padding: 20px;
         border-radius: 10px;
       }
-
       .timer {
         display: flex;
         flex-direction: column;
@@ -37,17 +34,14 @@
         padding: 28px;
         border-radius: 10px;
       }
-
       .timer h2 {
         font-size: 3rem;
         font-weight: bold;
       }
-
       .timer p {
         font-size: 2rem;
         margin: 10px 0;
       }
-
       .money-saved {
         display: flex;
         align-items: center;
@@ -56,7 +50,6 @@
         color: #86c232;
         margin-top: 20px;
       }
-
       .last-date {
         font-size: 1rem;
         color: #cccccc;
@@ -72,27 +65,21 @@
         <p id="minutes">0 Minutes</p>
         <p id="seconds">0 Seconds</p>
       </div>
-
       <div class="money-saved">
-        <span>+</span>
-        <span id="moneySaved">0</span>
+        <span>+</span><span id="moneySaved">0</span>
       </div>
-
       <div class="last-date">Last Date: <span id="lastDate"></span></div>
     </div>
 
     <script>
-      const lastSmokeDate = new Date("2024-10-06T23:30:00+05:30");
-
+      const lastDate = new Date("2024-10-06T23:30:00+05:30");
       const costPerDay = 300;
       const costPerHour = costPerDay / 24;
       const costPerMinute = costPerDay / (24 * 60);
       const costPerSecond = costPerDay / (24 * 60 * 60);
 
       function updateTimer() {
-        const currentDate = new Date();
-        const timeDifference = currentDate - lastSmokeDate;
-
+        const timeDifference = Date.now() - lastDate;
         const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
           (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -101,13 +88,12 @@
           (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
         );
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
         const moneySaved = (
           seconds * costPerSecond +
           minutes * costPerMinute +
           hours * costPerHour +
           days * costPerDay
-        ).toFixed(2);
+        ).toFixed(3);
 
         document.getElementById("days").textContent = `${days} Days`;
         document.getElementById("hours").textContent = `${hours} Hours`;
@@ -115,10 +101,12 @@
         document.getElementById("seconds").textContent = `${seconds} Seconds`;
         document.getElementById("moneySaved").textContent = moneySaved;
         document.getElementById("lastDate").textContent =
-          lastSmokeDate.toLocaleString("en-IN");
+          lastDate.toLocaleString("en-IN");
+
+        requestAnimationFrame(updateTimer);
       }
 
-      setInterval(updateTimer, 1000);
+      requestAnimationFrame(updateTimer);
     </script>
   </body>
 </html>
